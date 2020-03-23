@@ -15,15 +15,21 @@ class ConstClass(object):
         print 'Hi it\'s {} and according to everyone the best fruit is {}.'.format(self.name, self.fruit)
 
 
-def test_const_class():
+class ChildConstClass(ConstClass):
+    pass
+
+
+@pytest.mark.parametrize('cls', [ConstClass, ChildConstClass])
+def test_const_class(cls):
+    print cls
     with pytest.raises(TypeError):
-        ConstClass.fruit = 'apple'
+        cls.fruit = 'apple'
 
     with pytest.raises(TypeError):
-        ConstClass.greet = lambda (self): 7
+        cls.greet = lambda (self): 7
 
     with pytest.raises(TypeError):
-        ConstClass.__init__ = int.__init__
+        cls.__init__ = int.__init__
 
 
 def test_instance_properties_are_mutable():
