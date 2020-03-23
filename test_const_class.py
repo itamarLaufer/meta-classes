@@ -1,5 +1,6 @@
 import pytest
-Const = None
+
+from const import Const
 
 
 class ConstClass(object):
@@ -15,11 +16,18 @@ class ConstClass(object):
 
 
 def test_const_class():
-    with pytest.raises(AttributeError):
+    with pytest.raises(TypeError):
         ConstClass.fruit = 'apple'
 
-    with pytest.raises(AttributeError):
+    with pytest.raises(TypeError):
         ConstClass.greet = lambda (self): 7
 
-    with pytest.raises(AttributeError):
+    with pytest.raises(TypeError):
         ConstClass.__init__ = int.__init__
+
+
+def test_instance_properties_are_mutable():
+    instance = ConstClass('Jack')
+    instance.name = 'Martin'
+    instance.fruit = 'apple'
+    instance.vegetable = 'tomato'
